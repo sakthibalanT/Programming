@@ -1,0 +1,58 @@
+bipartite bfs
+class Solution {
+    boolean ischeck(int src,int v,ArrayList<ArrayList<Integer>> adj,int[] color)
+    {
+        Queue<Integer> q=new LinkedList<Integer>();
+        q.add(src);
+        color[src]=0;
+        while(!q.isEmpty())
+        {
+            int node=q.peek();
+            q.remove();
+            for(int i:adj.get(node))
+            {
+                if(color[i]==-1)
+                {
+                    color[i]=1-color[node];
+                    q.add(i);
+                }
+                if(color[i]==color[node])
+                {
+                    return false;
+                }
+            }
+        }
+            return true;
+    }
+    public boolean isBipartite(int[][] graph) {
+ArrayList<ArrayList<Integer>> adj =new ArrayList<ArrayList<Integer>>();
+        for(int i=0;i<graph.length;i++)
+        {
+            adj.add(new ArrayList<Integer>());
+        }
+        for(int i=0;i<graph.length;i++)
+        {
+            for(int j=0;j<graph[i].length;j++)
+            {
+                    adj.get(i).add(graph[i][j]);
+                    adj.get(graph[i][j]).add(i);
+            }
+        }
+        int v=graph.length;
+        int[] color=new int[v];
+        for(int i=0;i<v;i++)
+        {
+            color[i]=-1;
+        }
+        for(int i=0;i<v;i++)
+        {
+            if(color[i]==-1){
+            if(ischeck(i,v,adj,color)==false)
+            {
+                return false;
+            }
+            }
+        }
+        return true;
+    }
+}
